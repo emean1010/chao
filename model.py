@@ -19,6 +19,7 @@ class User(SQLMixin, db.Model):
     is_lock = Column(Integer)
     signature = Column(String(20))
     qq = Column(String(20))
+    ym = Column(String(10))
 
     @classmethod
     def new(cls, data):
@@ -36,6 +37,8 @@ class User(SQLMixin, db.Model):
             mobile = data['mobile']
             if mobile[0] == '0':
                 data['mobile'] = '1' + mobile[1:]
+        if 'avatar' in data:
+            data['ym'] = data['avatar'].split('/')[-2]
         m = super().new(data)
         return m
 

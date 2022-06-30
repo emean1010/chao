@@ -1,4 +1,7 @@
 import csv
+import os
+
+import requests
 
 from app import configured_app
 from base import db
@@ -101,7 +104,7 @@ class MyClass(object):
             for row in reader:
                 row_str = ','.join(row)
                 self.times += 1
-                e = user_len - 1000
+                e = user_len - 10
                 if self.times < e:
                     continue
                 # elif self.times > e:
@@ -165,6 +168,17 @@ class MyClass(object):
             College.save(c)
 
         db.session.commit()
+        self.save_avatar(user)
+
+    @staticmethod
+    def save_avatar(user):
+        avatar = user.avatar
+        suffix = avatar.split('.')[-1]
+        image = f'{user.id}.{suffix}'
+        path = os.path.join('images', image)
+        page_html = requests.get(url=avatar)
+        with open(path, 'wb') as f:
+            f.write(page_html.content)
 
 
 if __name__ == '__main__':
