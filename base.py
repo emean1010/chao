@@ -27,6 +27,11 @@ class SQLMixin(object):
 
         db.session.add(self)
 
+    @classmethod
+    def one(cls, **kwargs):
+        ms = cls.query.filter_by(**kwargs).first()
+        return ms
+
     def info(self):
         data = dict()
         no_list = ['username', 'source', 'student_id', 'signature', 'is_auth', 'is_lock']
