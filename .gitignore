@@ -1,0 +1,5 @@
+secret.py
+*.csv
+*.txt
+.idea
+*.pyc
