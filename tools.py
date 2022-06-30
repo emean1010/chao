@@ -168,8 +168,8 @@ class MyClass(object):
             School.save(c)
             College.save(c)
 
-        db.session.commit()
         self.save_avatar(user)
+        db.session.commit()
 
     def save_avatar(self, user):
         avatar = user.avatar
@@ -184,6 +184,7 @@ class MyClass(object):
         page_html = requests.get(url=avatar)
         with open(path, 'wb') as f:
             f.write(page_html.content)
+        user.update(image=image)
 
     def real_suffix(self, suffix):
         n = ''

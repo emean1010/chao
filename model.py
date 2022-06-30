@@ -20,6 +20,7 @@ class User(SQLMixin, db.Model):
     signature = Column(String(20))
     qq = Column(String(20))
     ym = Column(String(10))
+    image = Column(String(20))
 
     @classmethod
     def new(cls, data):

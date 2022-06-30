@@ -7,7 +7,16 @@
 <body>
     <h2>读取</h2>
     <div class="container" id="container">
-        {{data}}
+        <table border="1" cellspacing="10">
+            {% for t in data %}
+            <tr class="cell">
+                <tr>
+                    <td>{{ t.id }}</td>
+                    <td><img src="/images/{{ t.id }}" width="100%" height="100%" /></td>
+                    <td>{{ t.realname }}</td>
+                </tr>
+            {% endfor %}
+        </table>
     </div>
 </body>
 </html>

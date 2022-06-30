@@ -1,6 +1,7 @@
 from flask import render_template, request, Blueprint
 
 from model import *
+from operate import Operate
 
 main = Blueprint('index', __name__)
 
@@ -20,7 +21,13 @@ def get_request_form():
 @main.route("/")
 def index():
     form = get_request_form()
-    data = User.query.all()
+    filters = dict(
+        school_name='长沙',
+        college_name='计算机',
+        limit=20,
+        offset=0,
+    )
+    data = Operate.find(**filters)
     return render_template("index.html", data=data)
 
 
