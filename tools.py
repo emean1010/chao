@@ -29,6 +29,7 @@ class MyClass(object):
         self.certify_start = 0
         self.certify_keys = ['college_name', 'role', 'code', 'position_id', 'enrollment_year', 'school_id',
                              'college_id', 'major_name', 'type', 'school_name', 'user_id', 'certify_id']
+        self.suffix_list = ['bmp', 'gif', 'jpg', 'jpeg', 'png']
 
     def reset(self):
         self.index = 0
@@ -170,15 +171,32 @@ class MyClass(object):
         db.session.commit()
         self.save_avatar(user)
 
-    @staticmethod
-    def save_avatar(user):
+    def save_avatar(self, user):
         avatar = user.avatar
         suffix = avatar.split('.')[-1]
+        suffix = self.real_suffix(suffix)
+        if not suffix:
+            return
         image = f'{user.id}.{suffix}'
+        if not os.path.isdir('images'):
+            os.mkdir('images')
         path = os.path.join('images', image)
         page_html = requests.get(url=avatar)
         with open(path, 'wb') as f:
             f.write(page_html.content)
+
+    def real_suffix(self, suffix):
+        n = ''
+        for i in suffix:
+            if i.isupper():
+                n += i.lower()
+            else:
+                n += i
+        suffix = n
+        if suffix in self.suffix_list:
+            return suffix
+        else:
+            return None
 
 
 if __name__ == '__main__':

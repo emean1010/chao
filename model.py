@@ -38,7 +38,9 @@ class User(SQLMixin, db.Model):
             if mobile[0] == '0':
                 data['mobile'] = '1' + mobile[1:]
         if 'avatar' in data:
-            data['ym'] = data['avatar'].split('/')[-2]
+            ym = data['avatar'].split('/')[-2]
+            if len(ym) == 6:
+                data['ym'] = ym
         m = super().new(data)
         return m
 
