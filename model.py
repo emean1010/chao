@@ -11,12 +11,12 @@ class User(SQLMixin, db.Model):
     realname = Column(String(50))
     email = Column(String(50))
     area = Column(Integer)
-    mobile = Column(String(20))
+    mobile = Column(String(20), default='2')
     avatar = Column(String(200))
-    gender = Column(Integer)
+    gender = Column(Integer, default=9)
     is_auth = Column(Integer)
     source = Column(String(20))
-    is_lock = Column(Integer)
+    is_lock = Column(Integer, default=9)
     signature = Column(String(20))
     qq = Column(String(20))
     ym = Column(String(10))
@@ -84,11 +84,24 @@ class Certify(SQLMixin, db.Model):
     """ 用户表 """
     user_id = Column(Integer)
     certify_id = Column(String(20))
-    school_id = Column(Integer)
+    school_id = Column(Integer, default=0)
     type = Column(Integer)
     role = Column(Integer)
     code = Column(String(20))
-    college_id = Column(Integer)
+    college_id = Column(Integer, default=0)
     position_id = Column(Integer)
     enrollment_year = Column(String(20))
-    major_name = Column(String(50))
+    major_name = Column(String(50), default='none')
+
+    @classmethod
+    def new(cls, data):
+        user_id = data['user_id']
+        school_id = data.get('school_id')
+        if not school_id:
+            return
+        college_id = data.get('college_id', 0)
+        major_name = data.get('major_name', 'none')
+        m = cls.one(user_id=user_id, school_id=school_id, college_id=college_id, major_name=major_name)
+        if not m:
+            m = super().new(data)
+        return m

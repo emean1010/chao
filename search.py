@@ -9,6 +9,6 @@ if __name__ == '__main__':
             school_name='长沙',
             college_name='计算机',
         )
-        data = Operate.find(**filters)
+        data = Operate.find(filters)
         for d in data:
             print(d)
